@@ -1,5 +1,7 @@
 # cakeday
 
+[![Build Status](https://drone.io/github.com/darthlukan/cakeday/status.png)](https://drone.io/github.com/darthlukan/cakeday/latest)
+
 > Author: Brian Tomlinson <brian.tomlinson@linux.com>
 
 ## Description
