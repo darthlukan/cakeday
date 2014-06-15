@@ -40,9 +40,9 @@ func Get(username string) (string, error) {
 	if err != nil {
 		return "Not found!", err
 	}
-
-	timestamp := time.Unix(resp.Get("data[created_utc]").Int64(), 0)
-	final := fmt.Sprintf("Reddit Cake Day for %v is: %v", username, timestamp.Format("1 Jan"))
+	timestamp := time.Unix(int64(resp.Get("data.created_utc").Float64()), 0)
+	final := fmt.Sprintf("Reddit Cake Day for %v is: %v %v", username, timestamp.Day(), timestamp.Month().String())
+	fmt.Println(final)
 	return final, err
 
 }
