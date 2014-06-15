@@ -1,8 +1,8 @@
 package cakeday
 
 import (
-	"encoding/json"
 	"fmt"
+	"github.com/stretchr/objx"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -12,10 +12,9 @@ var (
 	version string = "1.0"
 	baseUrl string = "http://www.reddit.com/user/"
 	suffix  string = "/about.json"
-	data    map[string]interface{}
 )
 
-func request(url string) (map[string]interface{}, error) {
+func request(url string) (objx.Map, error) {
 	response, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -27,7 +26,8 @@ func request(url string) (map[string]interface{}, error) {
 		return nil, err
 	}
 
-	if err := json.Unmarshal(body, &data); err != nil {
+	data, err := objx.FromJSON(string(body))
+	if err != nil {
 		return nil, err
 	}
 
@@ -41,7 +41,7 @@ func Get(username string) (string, error) {
 		return "Not found!", err
 	}
 
-	timestamp := time.Unix(int64(resp["data"].(map[string]interface{})["created_utc"].(float64)), 0)
+	timestamp := time.Unix(resp.Get("data[created_utc]").Int64(), 0)
 	final := fmt.Sprintf("Reddit Cake Day for %v is: %v", username, timestamp.Format("1 Jan"))
 	return final, err
 
