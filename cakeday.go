@@ -41,7 +41,9 @@ func Get(username string) (string, error) {
 		return "Not found!", err
 	}
 	timestamp := time.Unix(int64(resp.Get("data.created_utc").Float64()), 0)
-	final := fmt.Sprintf("Reddit Cake Day for %v is: %v %v", username, timestamp.Day(), timestamp.Month().String())
+	final := fmt.Sprintf("Reddit Cake Day for %v is: %v %v %v",
+                       username, timestamp.Day(),
+                       timestamp.Month().String(), timestamp.Year())
 	return final, err
 
 }
